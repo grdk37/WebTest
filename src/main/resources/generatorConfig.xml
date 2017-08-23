@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+ <classPathEntry  
+        location="C:\Users\jamie\.m2\repository\mysql\mysql-connector-java\5.1.43\mysql-connector-java-5.1.43.jar" />  
+	<context id="context1">
+		<jdbcConnection connectionURL="jdbc:mysql://172.18.255.168/blog"
+			driverClass="com.mysql.jdbc.Driver" password="root" userId="root" />
+		<javaModelGenerator targetPackage="com.dzx.app.entity"
+			targetProject="WebTest/src/main/java" />
+		<sqlMapGenerator targetPackage="mappers"
+			targetProject="WebTest/src/main/resources" />
+		<javaClientGenerator targetPackage="com.dzx.app.mapper"
+			targetProject="WebTest/src/main/java" type="XMLMAPPER" />
+		<table schema="blog" tableName="author" />
+		<table schema="blog" tableName="blog" />
+		<table schema="blog" tableName="comment" />
+		<table schema="blog" tableName="node" />
+		<table schema="blog" tableName="post" />
+		<table schema="blog" tableName="post_tag" />
+		<table schema="blog" tableName="tag" />
+	</context>
+</generatorConfiguration>

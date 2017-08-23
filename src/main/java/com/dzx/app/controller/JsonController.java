@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpHeaders;
@@ -17,25 +18,42 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.dzx.app.entity.Author;
+import com.dzx.app.entity.AuthorExample;
+import com.dzx.app.mapper.AuthorMapper;
+
 @Controller
 public class JsonController {
 
-	@RequestMapping(value = "/getString", method = RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	@Resource
+	AuthorMapper authorMapper;
+
+	@RequestMapping(value = "/getString", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> test(ModelMap mv, HttpServletResponse response) {
 		Map<String, Object> map = new LinkedHashMap<>();
 		map.put("a", "你好");
 		map.put("b", 100);
 		map.put("c", new Date());
 		List list = Arrays.asList(200, "在这里", map);
-		 return new ResponseEntity<Object>(list,new HttpHeaders(), HttpStatus.OK);
+		return new ResponseEntity<Object>(list, new HttpHeaders(), HttpStatus.OK);
 	}
-	@RequestMapping(value = "/404", method = RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	
+	@RequestMapping(value = "/select", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Object> select(ModelMap mv, HttpServletResponse response) {
+		Map<String, Object> map = new LinkedHashMap<>();
+		AuthorExample example = new AuthorExample();
+		example.setOrderByClause("username asc");
+		List<Author> list = authorMapper.selectByExample(example);
+		return new ResponseEntity<Object>(list, new HttpHeaders(), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/404", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> test404(ModelMap mv, HttpServletResponse response) {
 		Map<String, Object> map = new LinkedHashMap<>();
-		map.put("a", "404");
-		map.put("b", 100);
+		map.put("code", "404");
+		map.put("b", 404);
 		map.put("c", new Date());
-		List list = Arrays.asList(404, "在这里404", map);
-		 return new ResponseEntity<Object>(list,new HttpHeaders(), HttpStatus.NOT_FOUND);
+		List list = Arrays.asList(404, "在这里", map);
+		return new ResponseEntity<Object>(list, new HttpHeaders(), HttpStatus.NOT_FOUND);
 	}
 }
