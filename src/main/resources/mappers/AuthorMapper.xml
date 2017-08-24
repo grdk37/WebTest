@@ -21,6 +21,17 @@
     -->
     <result column="bio" jdbcType="LONGVARCHAR" property="bio" />
   </resultMap>
+  
+  <select id="selectAuthor3" resultType="hashmap">
+  SELECT * FROM author WHERE username = #{cd}
+</select>
+
+
+ <select id="selectAuthor2" parameterType="_int" resultType="com.dzx.app.entity.Author">
+  SELECT * FROM author WHERE id = #{id}
+</select>
+ 
+  
   <sql id="Example_Where_Clause">
     <!--
       WARNING - @mbg.generated
