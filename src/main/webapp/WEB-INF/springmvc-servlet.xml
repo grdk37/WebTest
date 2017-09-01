@@ -8,8 +8,8 @@
 	http://www.springframework.org/schema/aop/spring-aop.xsd
     http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
+     <import resource="applicationContext-security.xml"/>
 	<context:component-scan base-package="com.dzx.app" />
-
 	<mvc:resources mapping="/resources/**" location="/resources/" />
 
 	<bean id="fastJsonConfig" class="com.alibaba.fastjson.support.config.FastJsonConfig">
@@ -45,11 +45,11 @@
 		</mvc:message-converters>
 	</mvc:annotation-driven>
 
-<!-- 
-	<bean
-		class="org.springframework.web.servlet.mvc.support.ControllerBeanNameHandlerMapping" />
-	<bean name="testT2" class="com.dzx.app.controller.BaseNameController" />
-	 -->
+	<!-- <bean class="org.springframework.web.servlet.mvc.support.ControllerBeanNameHandlerMapping" 
+		/> <bean name="testT2" class="com.dzx.app.controller.BaseNameController" 
+		/> -->
+
+
 
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -61,10 +61,33 @@
 		</property>
 	</bean>
 
+
+
+
+
+	<bean id="audience" class="com.dzx.app.common.Audience" />
+
+	<aop:config>
+		<aop:aspect ref="audience">
+			<aop:pointcut id="performance"
+				expression="execution(* com.dzx.app.mapper.*.*(..))" />
+			<aop:before pointcut-ref="performance" method="takeSeats" />
+			<aop:before pointcut-ref="performance" method="turnOffCellPhones" />
+			<aop:after-returning pointcut="execution(* com.dzx.app.mapper.*.*(..))"
+				method="applaud" />
+			<aop:after-throwing pointcut="execution(* com.dzx.app.mapper.*.*(..))"
+				method="demandRefund" />
+
+			<!-- <aop:around pointcut-ref="performance" method="watchPerformance" 
+				/> -->
+		</aop:aspect>
+	</aop:config>
+
 	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://127.0.0.1/blog?useSSL=false&amp;autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8" />
+		<property name="url"
+			value="jdbc:mysql://172.18.255.164/blog?useSSL=false&amp;autoReconnect=true&amp;useUnicode=true&amp;characterEncoding=UTF-8" />
 		<property name="username" value="root" />
 		<property name="password" value="root" />
 		<property name="initialSize" value="10" />
@@ -76,8 +99,8 @@
 		<!--dataSource属性指定要用到的连接池 -->
 		<property name="dataSource" ref="dataSource" />
 		<!--configLocation属性指定mybatis的核心配置文件 -->
-		 <property name="mapperLocations" value="classpath*:mappers/**/*.xml" />
-		 <property name="typeAliasesPackage" value="com.dzx.app.entity"/> 
+		<property name="mapperLocations" value="classpath*:mappers/**/*.xml" />
+		<property name="typeAliasesPackage" value="com.dzx.app.entity" />
 		<!-- mybatis-spring 1.3.0 开始加入configuration属性 -->
 		<property name="configuration">
 			<bean class="org.apache.ibatis.session.Configuration">
@@ -103,6 +126,8 @@
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
+	
+
 	<!--用MapperFactoryBean一个一个地定义或者使用org.mybatis.spring.mapper.MapperScannerConfigurer 
 		一次定义所有的Mapper -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
@@ -111,4 +136,5 @@
 			或 sqlSessionTemplateBeanName属性来设置正确的 bean 名 称来使用。 -->
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 	</bean>
+
 </beans>

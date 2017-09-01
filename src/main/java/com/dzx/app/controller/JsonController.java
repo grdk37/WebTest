@@ -27,6 +27,12 @@ public class JsonController {
 
 	@Resource
 	AuthorMapper authorMapper;
+	
+	@RequestMapping(value="/login",method = RequestMethod.GET)
+	public String login(){
+		System.out.println("/login");
+		return "login";
+	}
 
 	@RequestMapping(value = "/getString", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> test(ModelMap mv, HttpServletResponse response) {
@@ -38,8 +44,9 @@ public class JsonController {
 		return new ResponseEntity<Object>(list, new HttpHeaders(), HttpStatus.OK);
 	}
 	
-	@RequestMapping(value = "/select", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/select5", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> select(ModelMap mv, HttpServletResponse response) {
+		System.out.println("-->");
 		Map<String, Object> map = new LinkedHashMap<>();
 		AuthorExample example = new AuthorExample();
 		example.setOrderByClause("username asc");

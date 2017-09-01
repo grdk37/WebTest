@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	   http://www.springframework.org/schema/beans/spring-beans.xsd
+	   	      http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	   http://www.springframework.org/schema/context
+	   http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+	   http://www.springframework.org/schema/security
+  http://www.springframework.org/schema/security/spring-security-3.2.xsd ">
+	
+	<http pattern="/resources/**" security="none"/>
+	<http pattern="/login" security="none"/>
+	<http pattern="/index.jsp" security="none"/>
+	
+	<http auto-config="true" use-expressions="false">
+		<form-login login-processing-url="/j_spring_security_check"
+			login-page="/login" authentication-failure-url="/login?login_error=t"/>
+		<intercept-url pattern="/**" access="ROLE_SPITTER"/>
+	</http>
+	<authentication-manager>
+		<authentication-provider>
+			<user-service>
+				<user name="srccodes" password="123456" authorities="ROLE_SPITTER"/>
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
+</beans:beans>
