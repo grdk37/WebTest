@@ -33,6 +33,13 @@ public class JsonController {
 		System.out.println("/login");
 		return "login";
 	}
+	
+	@RequestMapping(value="/hello",method = RequestMethod.GET)
+	public String hello(){
+		System.out.println("/hello");
+		return "hello";
+	}
+
 
 	@RequestMapping(value = "/getString", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<Object> test(ModelMap mv, HttpServletResponse response) {

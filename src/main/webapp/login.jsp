@@ -1,5 +1,7 @@
 <%@ page pageEncoding="UTF-8"%>
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+
 <div>
 	<h2>Sign in to Spitter</h2>
 	<p>If you've been using Spitter from your phone, then that's
